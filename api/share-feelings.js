@@ -15,8 +15,21 @@ export default async function handler(req, res) {
       });
     }
 
-    console.log('Attempting to send email with SendGrid...');
-    console.log('To: chhavi09nayyar@gmail.com');
+    console.log('=== SENDGRID DEBUG INFO ===');
+    console.log('API Key exists:', !!process.env.SENDGRID_API_KEY);
+    console.log('API Key length:', process.env.SENDGRID_API_KEY ? process.env.SENDGRID_API_KEY.length : 0);
+    console.log('From email:', process.env.SENDGRID_FROM_EMAIL);
+    console.log('To email: chhavi09nayyar@gmail.com');
+    console.log('Message length:', message.length);
+
+    // Check if API key is set
+    if (!process.env.SENDGRID_API_KEY) {
+      console.error('SENDGRID_API_KEY is not set!');
+      return res.status(500).json({ 
+        success: false, 
+        message: 'Email service not configured properly.' 
+      });
+    }
 
     // Set SendGrid API key
     sgMail.setApiKey(process.env.SENDGRID_API_KEY);
@@ -47,8 +60,9 @@ export default async function handler(req, res) {
       `
     };
 
+    console.log('Attempting to send email...');
     await sgMail.send(msg);
-    console.log('Email sent successfully with SendGrid!');
+    console.log('✅ Email sent successfully with SendGrid!');
     
     res.status(200).json({ 
       success: true, 
@@ -56,8 +70,10 @@ export default async function handler(req, res) {
     });
     
   } catch (error) {
-    console.error('SendGrid email sending error:', error);
+    console.error('❌ SendGrid email sending error:');
     console.error('Error message:', error.message);
+    console.error('Error response:', error.response?.body);
+    console.error('Full error:', error);
     
     res.status(500).json({ 
       success: false, 
