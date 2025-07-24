@@ -20,7 +20,7 @@ export default async function handler(req, res) {
       console.error('SENDGRID_API_KEY not found');
       return res.status(500).json({ 
         success: false, 
-        message: 'Email service not configured' 
+        message: 'Email service not configured - API key missing' 
       });
     }
 
@@ -49,9 +49,11 @@ export default async function handler(req, res) {
     console.error('SendGrid error:', error.message);
     console.error('Error details:', error.response?.body);
     
+    // Show the actual error to help debug
     res.status(500).json({ 
       success: false, 
-      message: 'Sorry, there was an error. Please try again.' 
+      message: `Error: ${error.message}`,
+      details: error.response?.body
     });
   }
 } 
