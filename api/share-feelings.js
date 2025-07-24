@@ -15,19 +15,30 @@ export default async function handler(req, res) {
       });
     }
 
+    // Check if API key exists
+    if (!process.env.SENDGRID_API_KEY) {
+      console.error('SENDGRID_API_KEY not found');
+      return res.status(500).json({ 
+        success: false, 
+        message: 'Email service not configured' 
+      });
+    }
+
     // Set API key
     sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
-    // Simple email
+    // Try with a different from email first
     const msg = {
       to: 'chhavi09nayyar@gmail.com',
-      from: 'chhavi09nayyar@gmail.com', // Use your verified email
+      from: 'noreply@sendgrid.net', // Use SendGrid's default sender
       subject: 'New Message from Anshi 💙',
       text: message,
       html: `<p>${message}</p>`
     };
 
+    console.log('Sending email...');
     await sgMail.send(msg);
+    console.log('Email sent successfully!');
     
     res.status(200).json({ 
       success: true, 
@@ -35,7 +46,8 @@ export default async function handler(req, res) {
     });
     
   } catch (error) {
-    console.error('Error:', error.message);
+    console.error('SendGrid error:', error.message);
+    console.error('Error details:', error.response?.body);
     
     res.status(500).json({ 
       success: false, 
