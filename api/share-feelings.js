@@ -1,4 +1,4 @@
-const nodemailer = require('nodemailer');
+import sgMail from '@sendgrid/mail';
 
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
@@ -15,21 +15,15 @@ export default async function handler(req, res) {
       });
     }
 
-    console.log('Attempting to send email...');
-    console.log('From:', process.env.EMAIL_USER);
+    console.log('Attempting to send email with SendGrid...');
     console.log('To: chhavi09nayyar@gmail.com');
 
-    const transporter = nodemailer.createTransporter({
-      service: 'gmail',
-      auth: {
-        user: process.env.EMAIL_USER,
-        pass: process.env.EMAIL_PASS
-      }
-    });
+    // Set SendGrid API key
+    sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
-    const mailOptions = {
-      from: process.env.EMAIL_USER,
+    const msg = {
       to: 'chhavi09nayyar@gmail.com',
+      from: process.env.SENDGRID_FROM_EMAIL || 'noreply@yourdomain.com',
       subject: 'Someone Shared Their Feelings 💙',
       html: `
         <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;">
@@ -53,8 +47,8 @@ export default async function handler(req, res) {
       `
     };
 
-    await transporter.sendMail(mailOptions);
-    console.log('Email sent successfully!');
+    await sgMail.send(msg);
+    console.log('Email sent successfully with SendGrid!');
     
     res.status(200).json({ 
       success: true, 
@@ -62,9 +56,8 @@ export default async function handler(req, res) {
     });
     
   } catch (error) {
-    console.error('Email sending error details:', error);
+    console.error('SendGrid email sending error:', error);
     console.error('Error message:', error.message);
-    console.error('Error code:', error.code);
     
     res.status(500).json({ 
       success: false, 
