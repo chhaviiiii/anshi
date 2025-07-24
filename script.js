@@ -99,7 +99,7 @@ document.addEventListener('DOMContentLoaded', function() {
     function createFloatingElement() {
         const element = document.createElement('div');
         element.className = 'floating-heart';
-        element.textContent = ['💙', '💜', '💚', '💛', '💖', '💝'][Math.floor(Math.random() * 6)];
+        element.textContent = ['🤍', '💜', '🩵', '💛', '🤍', '🩷'][Math.floor(Math.random() * 6)];
         element.style.left = Math.random() * 100 + '%';
         element.style.top = Math.random() * 100 + '%';
         element.style.animationDuration = (Math.random() * 3 + 3) + 's';
