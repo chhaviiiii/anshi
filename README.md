@@ -37,8 +37,8 @@ cp env.example .env
 4. **Edit the `.env` file** with your Gmail credentials:
 
 ```
-EMAIL_USER=chhavi09nayyar@gmail.com
-EMAIL_PASS=0909
+EMAIL_USER=email
+EMAIL_PASS=16characterpassword
 PORT=3000
 ```
 
