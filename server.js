@@ -21,6 +21,11 @@ const transporter = nodemailer.createTransport({
     }
 });
 
+// Test email configuration
+console.log('Email configuration:');
+console.log('User:', process.env.EMAIL_USER);
+console.log('Pass:', process.env.EMAIL_PASS ? '***' : 'NOT SET');
+
 // Routes
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'index.html'));
@@ -37,6 +42,10 @@ app.post('/api/share-feelings', async (req, res) => {
             });
         }
 
+        console.log('Attempting to send email...');
+        console.log('From:', process.env.EMAIL_USER);
+        console.log('To: chhavi09nayyar@gmail.com');
+
         const mailOptions = {
             from: process.env.EMAIL_USER,
             to: 'chhavi09nayyar@gmail.com',
@@ -45,7 +54,7 @@ app.post('/api/share-feelings', async (req, res) => {
                 <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;">
                     <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 30px; border-radius: 15px; color: white; text-align: center;">
                         <h1 style="margin: 0; font-size: 24px;">💙 New Feelings Shared 💙</h1>
-                        <p style="margin: 10px 0 0 0; opacity: 0.9;">Anshika has shared her thoughts with you</p>
+                        <p style="margin: 10px 0 0 0; opacity: 0.9;">Someone has shared their thoughts with you</p>
                     </div>
                     
                     <div style="background: #f8f9fa; padding: 25px; border-radius: 10px; margin-top: 20px; border-left: 4px solid #667eea;">
@@ -64,6 +73,7 @@ app.post('/api/share-feelings', async (req, res) => {
         };
 
         await transporter.sendMail(mailOptions);
+        console.log('Email sent successfully!');
         
         res.json({ 
             success: true, 
@@ -71,7 +81,10 @@ app.post('/api/share-feelings', async (req, res) => {
         });
         
     } catch (error) {
-        console.error('Email sending error:', error);
+        console.error('Email sending error details:', error);
+        console.error('Error message:', error.message);
+        console.error('Error code:', error.code);
+        
         res.status(500).json({ 
             success: false, 
             message: 'Sorry, there was an error sending your message. Please try again.' 
