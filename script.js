@@ -29,7 +29,12 @@ document.addEventListener('DOMContentLoaded', function() {
         shareBtn.innerHTML = '<span class="button-text">Sending...</span> <span class="button-icon">💙</span>';
         
         try {
-            const response = await fetch('/api/share-feelings', {
+            // Use Vercel API route for production, fallback to local for development
+            const apiUrl = window.location.hostname === 'localhost' 
+                ? '/api/share-feelings' 
+                : '/api/share-feelings';
+                
+            const response = await fetch(apiUrl, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -99,7 +104,7 @@ document.addEventListener('DOMContentLoaded', function() {
     function createFloatingElement() {
         const element = document.createElement('div');
         element.className = 'floating-heart';
-        element.textContent = ['🤍', '💜', '🩵', '💛', '🤍', '🩷'][Math.floor(Math.random() * 6)];
+        element.textContent = ['💙', '💜', '💚', '💛', '💖', '💝'][Math.floor(Math.random() * 6)];
         element.style.left = Math.random() * 100 + '%';
         element.style.top = Math.random() * 100 + '%';
         element.style.animationDuration = (Math.random() * 3 + 3) + 's';
