@@ -55,7 +55,7 @@ The app will be available at: http://localhost:3000
 1. Open http://localhost:3000 in your browser
 2. Type a message in the textarea
 3. Click "Share" or press Ctrl+Enter
-4. Check your email (chhavi09nayyar@gmail.com) for the message
+4. Check your email ("") for the message
 
 ## How It Works
 
