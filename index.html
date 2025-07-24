@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Anshi</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <div class="content">
+            <h1 class="title">Share Your Feelings</h1>
+            <p class="subtitle">I'm here to listen. Share your sorrows, feelings, and whatever is on your mind.</p>
+            
+            <div class="input-container">
+                <textarea 
+                    id="feelingsInput" 
+                    placeholder="I always care about what you have to say. So don't be shy..."
+                    rows="6"
+                ></textarea>
+                <button id="shareBtn" class="share-button">
+                    <span class="button-text">Share</span>
+                    <span class="button-icon">💙</span>
+                </button>
+            </div>
+            
+            <div class="message" id="message"></div>
+        </div>
+        
+        <div class="floating-elements">
+            <div class="floating-heart">💙</div>
+            <div class="floating-heart">💜</div>
+            <div class="floating-heart">💚</div>
+            <div class="floating-heart">💛</div>
+        </div>
+    </div>
+    
+    <script src="script.js"></script>
+</body>
+</html> 
